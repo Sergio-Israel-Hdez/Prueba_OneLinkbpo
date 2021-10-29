@@ -1,0 +1,76 @@
+﻿@model IPagedList<Entities.Empleado>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Lista Empleados</h1>
+    <a class="btn btn-secondary" asp-area="" asp-controller="Home" asp-action="AgregarEmpleado">Agregar Empleado</a>
+    <br />
+</div>
+<div class="text-center">
+    <hr />
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col">
+                @Html.TextBox("filtro", null, new
+                    {
+                        placeholder = "Buscar Nombre o Numero Documento",
+                        @class = "form-control"
+                    })
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+            </div>
+        </div>
+        
+
+        
+    }
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Numero Documento</th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdEmpleado</td>
+                    <td>@item.Nombre @item.Apellido</td>
+                    <td>@item.NumeroDocumento</td>
+                    <td>
+                        @Html.ActionLink("Editar", "EditarEmpleado", new { id = item.IdEmpleado }) |
+                        @Html.ActionLink("Detalle", "DetalleEmpleado", new { id = item.IdEmpleado }) |
+                        @Html.ActionLink("Eliminar", "Eliminar", new { id = item.IdEmpleado })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="1">
+                    <div class="col float-left">
+                        Pagina @(Model.PageCount<Model.PageNumber ? 0:Model.PageNumber) de @Model.PageCount
+                    </div>
+                </td>
+                <td colspan="3">
+                    <div class="col float-right">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>

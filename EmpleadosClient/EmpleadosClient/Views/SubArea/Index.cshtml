@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Entities.SubArea>
+@{
+    ViewData["Title"] = "Lista SubAreas";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Lista SubArea</h1>
+    <a class="btn btn-secondary" asp-area="" asp-controller="SubArea" asp-action="Create">Agregar SubArea</a>
+    <br />
+</div>
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre SubArea</th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdSubArea</td>
+                    <td>@item.NombreSubArea</td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdSubArea }) |
+                        @Html.ActionLink("Detalle", "Details", new { id = item.IdSubArea }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdSubArea })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
